@@ -1,0 +1,16 @@
+name: drone-detect
+channels:
+  - defaults
+dependencies:
+# essentials
+  - python=3.12
+  - numpy<2
+  - pandas
+  - matplotlib
+  - scipy
+  - jupyter
+
+  # task specific
+  - opencv
+  - pytorch
+  - torchvision

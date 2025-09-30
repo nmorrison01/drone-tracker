@@ -4,3 +4,10 @@
 *.ptx
 *.cubin
 *.fatbin
+
+# ignore data and runs
+data/
+runs/
+
+# ignore models
+*.pt
