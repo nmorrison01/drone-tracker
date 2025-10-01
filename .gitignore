@@ -12,3 +12,6 @@ runs/
 # ignore models and csv files
 *.pt
 *.csv
+
+# ignore pycache
+__pycache__/
