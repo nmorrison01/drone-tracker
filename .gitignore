@@ -9,5 +9,6 @@
 data/
 runs/
 
-# ignore models
+# ignore models and csv files
 *.pt
+*.csv
