@@ -1,6 +1,7 @@
 # drone-tracker
 Technical challenge to track a single drone using visual-only sensor setup
 
+![Drone Trajectory] (cam1.jpg)
 # Setup
 
 Create conda environment:

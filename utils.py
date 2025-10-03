@@ -13,37 +13,53 @@ def set_device():
     return device
 
 
+# Function to plot 2D trajectory
+
+def plot_2d_trajectory(trajectory, sample_frame_rgb):
+    
+    nan_tolerance = 100  # max number of consecutive NaNs to tolerate
+
+    segments_x, segments_y = [], []
+    current_x, current_y = [], []
+    nan_count = 0
+
+    for _, x, y in trajectory:
+        if np.isnan(x) or np.isnan(y):
+            nan_count += 1
+            if nan_count > nan_tolerance:  # too many NaNs → break
+                if current_x:
+                    segments_x.append(current_x)
+                    segments_y.append(current_y)
+                    current_x, current_y = [], []
+            continue
+        else:
+            nan_count = 0  # reset when we get a valid point
+            current_x.append(x)
+            current_y.append(y)
+
+    # Add last segment
+    if current_x:
+        segments_x.append(current_x)
+        segments_y.append(current_y)
+
+    # Plot trajectory
+    plt.figure(figsize=(12, 8))
+    plt.imshow(sample_frame_rgb)
+    for seg_x, seg_y in zip(segments_x, segments_y):
+        plt.plot(seg_x, seg_y, marker='o', color='red', linewidth=2, markersize=1)
+    plt.title("Drone Trajectory Over Sample Frame")
+    plt.axis("off")
+    plt.show()
+
+
 # Functions to plot 3D trajectory
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 import plotly.graph_objects as go
 
-def plot_trajectory_static(trajectory_path):
 
-    # load text file
-    trajectory = np.loadtxt(trajectory_path)
-
-    # split into x, y, z
-    x, y, z = trajectory[:,0], trajectory[:,1], trajectory[:,2]
-
-    fig = plt.figure(figsize=(10, 7))
-    ax = fig.add_subplot(111, projection="3d")
-
-    ax.plot(x, y, z, color="red", label="Trajectory")
-    ax.scatter(x[0], y[0], z[0], c="green", s=100, label="Start")
-    ax.scatter(x[-1], y[-1], z[-1], c="blue", s=100, label="End")
-
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_zlabel("Z")
-    ax.set_title("3D Drone Trajectory")
-    ax.legend()
-
-    plt.show()
-
-
-def plot_trajectory_static_colored(trajectory_path):
+def plot_3d_trajectory_static(trajectory_path):
 
     # load trajectory from txt file
     trajectory = np.loadtxt(trajectory_path)
@@ -77,7 +93,7 @@ def plot_trajectory_static_colored(trajectory_path):
 
     plt.show()
 
-def plot_trajectory_interactive(trajectory_path):
+def plot_3d_trajectory_interactive(trajectory_path):
     
     # load trajectory from txt file
     trajectory = np.loadtxt(trajectory_path)
