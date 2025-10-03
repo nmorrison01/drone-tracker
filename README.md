@@ -5,8 +5,8 @@ Technical challenge to track a single drone using visual-only sensor setup
 
 # Notes
 
-The report can be found in report.pdf and the code is in workspace.ipynb and utils.py.  
-I have completed the 2d detection and tracking. Currently, still working on 3d.
+The report can be found in report.pdf and the code in both workspace.ipynb and utils.py.  
+I have completed the 2d detection and tracking challenge; currently still working on 3d.
 
 # Dataset
 
@@ -21,11 +21,11 @@ Then call the unpack script which loops through the zips and calls 7z
 
 # Setup
 
-Create conda environment:  
+Create and activate the conda environment:  
 conda env create -f environment.yml     
 conda activate drone-detect 
 
-Install Ultralytics which contains the YOLO family:  
+Install Ultralytics which contains the YOLO family for detection and tracking:  
 conda install -c conda-forge ultralytics
 
 
