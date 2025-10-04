@@ -97,6 +97,7 @@ def plot_3d_trajectory_interactive(trajectory_path):
     
     # load trajectory from txt file
     trajectory = np.loadtxt(trajectory_path)
+    #trajectory = trajectory[:2]  # limit to first 1500 points for performance
     x, y, z = trajectory[:,0], trajectory[:,1], trajectory[:,2]
 
     # create color scale based on time
@@ -127,3 +128,48 @@ def plot_3d_trajectory_interactive(trajectory_path):
     )
 
     fig.show()
+
+
+# Function to get camera intrinsics from JSON
+import json
+import os
+
+def get_camera_intrinsics(camera_name):
+
+    if camera_name == 'mate10':
+        json_file = f'./data/drone-tracking-datasets/calibration/{camera_name}/{camera_name}_1.json'
+    else:
+        json_file = f'./data/drone-tracking-datasets/calibration/{camera_name}/{camera_name}.json'
+
+    # load JSON
+    with open(json_file, "r") as f:
+        cam_info = json.load(f)
+
+    # access attributes
+    K = cam_info["K-matrix"]
+    dist = cam_info["distCoeff"]
+    fps = cam_info["fps"]
+    res = cam_info["resolution"]
+
+    # return as dictionary
+    return {
+        "camera_name": camera_name,
+        "K": K,
+        "dist_coeff": dist,
+        "fps": fps,
+        "resolution": res
+    }
+
+
+# Function to get camera types from cameras.txt
+def get_camera_names(file_path):
+
+    cameras = []
+    with open(file_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line:  # skip empty lines
+                parts = line.split(" - ")
+                cameras.append(parts[1])
+
+    return cameras
