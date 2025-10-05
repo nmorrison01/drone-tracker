@@ -16,6 +16,8 @@ def set_device():
 # Function to plot 2D trajectory
 
 def plot_2d_trajectory(trajectory, sample_frame_rgb):
+
+    #trajectory = pd.read_csv(trajectory_path)
     
     nan_tolerance = 100  # max number of consecutive NaNs to tolerate
 
@@ -43,13 +45,15 @@ def plot_2d_trajectory(trajectory, sample_frame_rgb):
         segments_y.append(current_y)
 
     # Plot trajectory
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(12, 8), frameon=False)
     plt.imshow(sample_frame_rgb)
     for seg_x, seg_y in zip(segments_x, segments_y):
         plt.plot(seg_x, seg_y, marker='o', color='red', linewidth=2, markersize=1)
-    plt.title("Drone Trajectory Over Sample Frame")
+    #plt.title("Drone Trajectory Over Sample Frame")
     plt.axis("off")
     plt.show()
+
+    plt.savefig("clean_image.png", bbox_inches='tight', pad_inches=0)
 
 
 # Functions to plot 3D trajectory
@@ -97,7 +101,7 @@ def plot_3d_trajectory_interactive(trajectory_path):
     
     # load trajectory from txt file
     trajectory = np.loadtxt(trajectory_path)
-    #trajectory = trajectory[:2]  # limit to first 1500 points for performance
+    trajectory = trajectory[4449:7279:2]  # limit to first 1500 points for performance
     x, y, z = trajectory[:,0], trajectory[:,1], trajectory[:,2]
 
     # create color scale based on time
@@ -132,11 +136,12 @@ def plot_3d_trajectory_interactive(trajectory_path):
 
 # Function to get camera intrinsics from JSON
 import json
-import os
 
 def get_camera_intrinsics(camera_name):
 
     if camera_name == 'mate10':
+        json_file = f'./data/drone-tracking-datasets/calibration/{camera_name}/{camera_name}_1.json'
+    elif camera_name == 'sonyG':
         json_file = f'./data/drone-tracking-datasets/calibration/{camera_name}/{camera_name}_1.json'
     else:
         json_file = f'./data/drone-tracking-datasets/calibration/{camera_name}/{camera_name}.json'

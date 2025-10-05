@@ -19,6 +19,8 @@ brew install p7zip
 Then call the unpack script which loops through the zips and calls 7z   
 ./unpack.sh
 
+The dataset provides intrinsics, but only camera position and not rotation. Thus, the essential matrix is estimated from corresponding detections using RANSAC and the eight-point algorithm. The relative rotation and translation between two cameras can be decomposed to recover their relative pose. 
+
 # Setup
 
 Create and activate the conda environment:  
