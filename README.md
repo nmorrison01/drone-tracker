@@ -5,7 +5,9 @@ Technical challenge to track a single drone using visual-only sensor setup
 
 # Notes
 
-The report can be found in report.pdf and the code in both workspace.ipynb and utils.py.  
+The report can be found in report.pdf and the code in both workspace.ipynb and utils.py. 
+Results for 2d tracking from Datset1 can be found in results.pdf    
+
 I have completed the 2d detection and tracking challenge; currently still working on 3d.
 
 # Dataset
@@ -19,7 +21,9 @@ brew install p7zip
 Then call the unpack script which loops through the zips and calls 7z   
 ./unpack.sh
 
-The dataset provides intrinsics, but only camera position and not rotation. Thus, the essential matrix is estimated from corresponding detections using RANSAC and the eight-point algorithm. The relative rotation and translation between two cameras can be decomposed to recover their relative pose. 
+The dataset provides intrinsics, but not full extrinsics (only camera position and not rotation.)   
+Thus, the essential matrix is estimated from corresponding detections using RANSAC and the eight-point algorithm.   
+The relative rotation and translation between two cameras can be decomposed to recover their relative pose. 
 
 # Setup
 
